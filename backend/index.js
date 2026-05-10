@@ -12,6 +12,10 @@ const tripRoutes = require('./routes/trip.routes')
 
 app.use('/trip', tripRoutes) // http://localhost:3001/trip --> POST/GET/GET by ID
 
+app.get('/', (req, res) => {
+    res.send('TravelMemory backend is running')
+})
+
 app.get('/hello', (req,res)=>{
     res.send('Hello World!')
 })

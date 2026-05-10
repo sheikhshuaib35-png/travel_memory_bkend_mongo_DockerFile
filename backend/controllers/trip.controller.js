@@ -1,4 +1,5 @@
 const tripModel = require('../models/trip.model')
+const mongoose = require('../conn').mongoose
 
 async function tripAdditionController(req, res){
     console.log(req.body)
@@ -19,8 +20,30 @@ async function tripAdditionController(req, res){
         await tripDetail.save()
         res.send('Trip added Successfully')
     }catch(error){
-        console.log('ERROR')
-        res.send('SOMETHING WENT WRONG')
+        console.error('ERROR', error)
+        res.status(500).send('SOMETHING WENT WRONG')
+    }
+}
+
+async function getMovieCollectionController(req, res) {
+    try {
+        const uri = process.env.MONGO_URI
+        const sampleConn = await mongoose.createConnection(uri, {
+            dbName: 'sample_mflix',
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }).asPromise()
+
+        const movies = await sampleConn.db.collection('movies')
+            .find({})
+            .limit(50)
+            .toArray()
+
+        await sampleConn.close()
+        res.json(movies)
+    } catch (error) {
+        console.error('MOVIES FETCH ERROR:', error)
+        res.status(500).send('Failed to fetch movies from sample_mflix.movies')
     }
 }
 
@@ -45,4 +68,9 @@ async function getTripDetailsByIdController(req,res){
         res.send('SOMETHING WENT WRONG')
     }
 }
-module.exports = { tripAdditionController, getTripDetailsController, getTripDetailsByIdController }
+module.exports = {
+    tripAdditionController,
+    getTripDetailsController,
+    getTripDetailsByIdController,
+    getMovieCollectionController
+}
