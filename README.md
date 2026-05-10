@@ -30,6 +30,7 @@ For frontend, you need to create `.env` file and put the following content (reme
 ```bash
 REACT_APP_BACKEND_URL=http://localhost:3001
 ```
+```
 Note:- This repo dose not use docker-compose.yaml or azure-pipelines.yml. I simply create a n/w ran backend container on that n/w & connected the backend to mongo db via URI configured in  Dockerfile.
 Commands I ran--
 ---Local
@@ -40,8 +41,6 @@ docker run -d -p 8001:80 --name nginx_b16a_network --network b16a-sm nginx
 git remote -v
 origin  https://github.com/UnpredictablePrashant/TravelMemory.git (fetch)
 origin  https://github.com/UnpredictablePrashant/TravelMemory.git (push)
-
-
 
 Changing fetch & push to my git repo
 git remote set-url origin https://github.com/<your-user>/<your-repo>.git
